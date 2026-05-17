@@ -26,7 +26,12 @@ import EmailValidationComponent from "./components/email_validation/email.valida
 import { USER_ROLE } from "./constants/role";
 import PostListsComponent from "./components/dashboard/posts/post_lists.component";
 import ProfileComponent from "./components/dashboard/profile/profile.component";
-
+import AboutUsComponent from "./components/footer/about-us.tsx";
+import CareerComponent from "./components/footer/career.tsx";
+import ContactUsComponent from "./components/footer/contact-us.tsx";
+import BlogComponent from "./components/footer/blog.tsx";
+import HelpCenterComponent from "./components/footer/help-center.tsx";
+import GuidelinesComponent from "./components/footer/guidelines.tsx";
 const ProtectedRoute = ({
   element,
   allowedRoles,
@@ -153,6 +158,12 @@ function App() {
         <Route path="/pricing" element={<PricingComponent />} />
         <Route path="/explore" element={<ExploreComponent />} />
         <Route path="/post/:id" element={<PostDetailsComponent />} />
+        <Route path="/about-us" element={<AboutUsComponent />} />
+        <Route path="/career" element={<CareerComponent />} />
+        <Route path="/contact-us" element={<ContactUsComponent />} />
+        <Route path="/blog" element={<BlogComponent />} />
+        <Route path="/help-center" element={<HelpCenterComponent />} />
+        <Route path="/guidelines" element={<GuidelinesComponent />} />
         <Route path="*" element={<NotFoundComponent />} />
       </Routes>
     </Router>

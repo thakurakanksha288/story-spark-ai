@@ -1,6 +1,6 @@
 
+import { Link } from "react-router-dom";
 import logo from "../../assets/logoNew.png";
-
 const FooterComponent = () => {
   return (
     <div className="bg-black">
@@ -22,30 +22,30 @@ const FooterComponent = () => {
 
             <ul className="mt-4 space-y-4">
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/about-us"
                   className="text-base text-gray-400 hover:text-white transition-colors duration-200"
                 >
                   About Us
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/career"
                   className="text-base text-gray-400 hover:text-white transition-colors duration-200"
                 >
                   Careers
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/contact-us"
                   className="text-base text-gray-400 hover:text-white transition-colors duration-200"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -57,30 +57,30 @@ const FooterComponent = () => {
 
             <ul className="mt-4 space-y-4">
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/blog"
                   className="text-base text-gray-400 hover:text-white transition-colors duration-200"
                 >
                   Blog
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/help-center"
                   className="text-base text-gray-400 hover:text-white transition-colors duration-200"
                 >
                   Help Center
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/guidelines"
                   className="text-base text-gray-400 hover:text-white transition-colors duration-200"
                 >
                   Guidelines
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -142,7 +142,7 @@ const FooterComponent = () => {
             </a>
 
             <a
-              href="#"
+              href="https://github.com/ronisarkarexe/story-spark-ai.git"
               className="text-gray-400 hover:text-white transition-colors duration-200"
             >
               <i className="fab fa-github"></i>
