@@ -6,6 +6,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+
 import HeroSectionComponent from "./components/hero/hero_section.component";
 import HomeComponent from "./components/home/home.component";
 import LoginComponent from "./components/login/login.component";
@@ -91,6 +92,7 @@ function App() {
               <HeroSectionComponent />
               <HomeComponent />
             </RootLayout>
+
           }
         />
         <Route
@@ -100,8 +102,7 @@ function App() {
               <TemplatesComponent />
             </RootLayout>
           }
-        />
-        <Route
+        /><Route
           path="/writing-assistant"
           element={
             <RootLayout>
@@ -237,6 +238,7 @@ function App() {
             </RootLayout>
           }
         />
+
         <Route path="/post/:id" element={<PostDetailsComponent />} />
         <Route path="/about-us" element={<AboutUsComponent />} />
         <Route path="/career" element={<CareerComponent />} />
