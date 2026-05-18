@@ -49,7 +49,7 @@ const ProtectedRoute = ({
     return <Navigate to="/login" />;
   }
   if (!allowedRoles.includes(user.role)) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/" replace />;
   }
   return element;
 };
@@ -92,7 +92,7 @@ function App() {
               <HeroSectionComponent />
               <HomeComponent />
             </RootLayout>
-            
+
           }
         />
         <Route
@@ -102,20 +102,16 @@ function App() {
               <TemplatesComponent />
             </RootLayout>
           }
+        /><Route
+          path="/writing-assistant"
+          element={
+            <RootLayout>
+              <WritingAssistantComponent />
+            </RootLayout>
+          }
         />
-
-
-<Route
-  path="/writing-assistant"
-  element={
-    <RootLayout>
-      <WritingAssistantComponent />
-    </RootLayout>
-  }
-/>
-
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<DashboardComponent />} />
+        <Route path="/dashboard" element={<ProtectedRoute element={<DashboardLayout />} allowedRoles={[USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN]} />}>
+          <Route index element={<ProtectedRoute element={<DashboardComponent />} allowedRoles={[USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN]} />} />
 
           <Route
             path="post-lists"
@@ -242,7 +238,7 @@ function App() {
             </RootLayout>
           }
         />
-        
+
         <Route path="/post/:id" element={<PostDetailsComponent />} />
         <Route path="/about-us" element={<AboutUsComponent />} />
         <Route path="/career" element={<CareerComponent />} />

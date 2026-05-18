@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { isLoggedIn, removeUserInfo } from "../../services/auth.service";
+import { isLoggedIn, removeUserInfo, getUserInfo } from "../../services/auth.service";
 import { Link } from "react-router-dom";
+import { USER_ROLE } from "../../constants/role";
 import logo from "../../assets/logoNew.png";
 import NotificationComponent from "../notification/notification.component";
 import { useNotifications } from "../../hooks/useNotifications";
@@ -17,6 +18,9 @@ const NavListComponent: React.FC = () => {
     close,
     markAsRead,
   } = useNotifications();
+
+  const user = getUserInfo();
+  const isAdmin = user?.role === USER_ROLE.ADMIN || user?.role === USER_ROLE.SUPER_ADMIN;
 
   const handelLogout = () => {
     removeUserInfo();
@@ -59,7 +63,9 @@ const NavListComponent: React.FC = () => {
             {isLogin && (
               <>
                 <Link to="/bookmarks" className="text-gray-400 hover:text-custom transition">SAVED STORIES</Link>
-                <Link to="/dashboard" className="text-gray-400 hover:text-custom transition">DASHBOARD</Link>
+                {isAdmin && (
+                  <Link to="/dashboard" className="text-gray-400 hover:text-custom transition">DASHBOARD</Link>
+                )}
               </>
             )}
           </div>
@@ -121,22 +127,26 @@ const NavListComponent: React.FC = () => {
           {isLogin && (
             <>
               <Link to="/bookmarks" className="text-gray-400 hover:text-white py-2">SAVED STORIES</Link>
-              <Link to="/dashboard" className="text-gray-400 hover:text-white py-2">DASHBOARD</Link>
+              {isAdmin && (
+                <Link to="/dashboard" className="text-gray-400 hover:text-white py-2">DASHBOARD</Link>
+              )}
             </>
           )}
           <button type="button" className="text-left text-gray-400 py-2" data-notification-trigger="true" onClick={toggle}>
             NOTIFICATIONS {unreadCount > 0 && `(${unreadCount})`}
           </button>
-          {isLogin ? (
-            <button onClick={handelLogout} className="text-left text-gray-400 py-2">
-              LOGOUT
-            </button>
-          ) : (
-            <Link to="/login" className="text-gray-400 py-2">LOGIN</Link>
-          )}
-        </div>
+          {
+            isLogin ? (
+              <button onClick={handelLogout} className="text-left text-gray-400 py-2">
+                LOGOUT
+              </button>
+            ) : (
+              <Link to="/login" className="text-gray-400 py-2">LOGIN</Link>
+            )
+          }
+        </div >
       )}
-    </div>
+    </div >
   );
 };
 
