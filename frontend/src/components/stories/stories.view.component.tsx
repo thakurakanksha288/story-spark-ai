@@ -6,12 +6,12 @@ import { useGetProfileInfoQuery } from "../../redux/apis/user.api";
 import jsPDF from "jspdf";
 import BookmarkButton from "../BookmarkButton";
 import logo from "../../assets/logoNew.png";
+import StoryGeneratingAnimation from "../loading/story-generating-animation.component";
+
 import {
   useGenerateAlternateEndingsMutation,
   useGenerateFreeAlternateEndingsMutation,
 } from "../../redux/apis/ai.model.api";
-
-
 export interface IStories {
   uuid: string;
   title: string;
@@ -28,12 +28,16 @@ interface StoriesComponentProps {
   stories: IStories[];
   isLogin: boolean;
   setStories: (stories: IStories[]) => void;
+  onPublishSuccess?: () => void;
+  isLoading?: boolean;
 }
 
 const StoriesViewComponent: React.FC<StoriesComponentProps> = ({
   stories,
   isLogin,
   setStories,
+  isLoading,
+  onPublishSuccess,
 }) => {
   // Start with a clean state that adapts dynamically
   const [selectedStory, setSelectedStory] = useState<IStories | null>(null);
@@ -174,7 +178,6 @@ useEffect(() => {
       )
     );
   };
-
   const handleAddTopic = () => {
     const title = newTopicTitle.trim();
 
@@ -198,6 +201,7 @@ useEffect(() => {
       {
         title: normalizedTitle,
         className: SELECTED_TOPIC_CLASSES,
+        color: SELECTED_TOPIC_CLASSES,
         selected: true,
       },
     ]);
@@ -214,7 +218,6 @@ useEffect(() => {
       currentTopics.filter((_, topicIndex) => topicIndex !== index)
     );
   };
-
   const handleCopyStory = async () => {
     if (selectedStory?.content) {
       await navigator.clipboard.writeText(selectedStory.content);
@@ -498,7 +501,6 @@ ${content}
       toast.error("Failed to export Markdown.");
     }
   };
-
   const handelPublishStory = async () => {
     if (!isLogin) {
       toast.error("Please login to publish the story.");
@@ -523,6 +525,7 @@ ${content}
         toast.success("Story published successfully!");
         setStories([]);
         setSelectedStory(null);
+        onPublishSuccess?.();
       }
     } catch {
       toast.error("Something went wrong. Please try again.");
@@ -536,7 +539,13 @@ ${content}
     return Math.max(1, Math.ceil(words / 200));
   };
 
-  // If no generation has run yet, don't render the story sections at all.
+if (isLoading) {
+  return (
+    <div className="flex items-center justify-center py-20">
+      <StoryGeneratingAnimation />
+    </div>
+  );
+}
   if (!selectedStory) {
     return null;
   }
