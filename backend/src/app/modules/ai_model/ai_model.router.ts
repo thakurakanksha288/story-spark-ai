@@ -20,4 +20,42 @@ router.post(
   AiModelController.aiFreeModelGenerate
 );
 
+// Generate Alternate Endings
+router.post(
+  "/generate-alternate-endings",
+  validateRequest(AIModelValidator.aiAlternateEndings),
+  checkRequestLimit(),
+  AiModelController.aiModelAlternateEndings
+);
+
+// Generate Free Alternate Endings
+router.post(
+  "/generate-free-alternate-endings",
+  validateRequest(AIModelValidator.aiAlternateEndings),
+  AiModelController.aiFreeModelAlternateEndings
+);
+
+// Remix Story
+router.post(
+  "/remix",
+  checkRequestLimit(),
+  AiModelController.aiModelRemix
+);
+// Remix Story Free
+router.post(
+  "/remix-free",
+  AiModelController.aiFreeModelRemix
+);
+// Translate Story
+router.post(
+  "/translate",
+  checkRequestLimit(),
+  AiModelController.aiModelTranslate
+);
+// Translate Story Free
+router.post(
+  "/translate-free",
+  AiModelController.aiFreeModelTranslate
+);
 export const AIModelRouter = router;
+

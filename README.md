@@ -75,7 +75,18 @@
 
    > Never commit `backend/.env` or `frontend/.env`. Only `.env.example` files belong in git.
 
-4. **Run apps**
+4. **First-Time Setup (Admin Seeding)**
+
+   Before starting the server for the first time, you must create an admin user:
+   
+   ```bash
+   cd backend
+   npx ts-node scripts/seed-admin.ts
+   ```
+   
+   Make sure `ADMIN_EMAIL` and `ADMIN_PASSWORD` are set in your `backend/.env` file.
+
+5. **Run apps**
 
    - **Both** (two terminals or one combined process):
 
@@ -86,13 +97,30 @@
    - **Backend only:** `npm run dev:backend` — API (default port **5000** if `PORT` is unset).
    - **Frontend only:** `npm run dev:frontend` — Vite dev server on **http://localhost:4001**
 
-5. **Production builds**
+6. **Production builds**
 
    ```bash
    npm run build
    npm run start:backend    # requires `npm run build:backend` first
    npm run start:frontend   # serves built static app (preview)
    ```
+
+### Deploying on Vercel
+
+Use **two** Vercel projects from this monorepo:
+
+| Project | Root directory | Example domain |
+|---------|----------------|----------------|
+| Frontend | `frontend` | `storysparkai.vercel.app` |
+| Backend API | `backend` | `apistorysparkai.vercel.app` |
+
+**Frontend environment variables** (redeploy after changing):
+
+- `VITE_BASE_URL` = `https://<your-api>.vercel.app/api/v1`
+- `VITE_SOCKET_URL` = `https://notification-socket-io.onrender.com` (or your own persistent Node host)
+- Do **not** point `VITE_SOCKET_URL` at your Vercel API URL — Vercel serverless cannot run Socket.IO, which causes endless `/socket.io/` **404** logs.
+
+**Backend environment variables:** set `DATABASE_URL`, JWT secrets, AI keys, and `CORS_ORIGINS` including `https://storysparkai.vercel.app`.
 
 **Git:** Use a **single** repository root (one `.git` folder). Do not nest another `.git` inside `frontend/` or `backend/`.
 
@@ -127,6 +155,8 @@ cp frontend/.env.example frontend/.env
 | `UNSPLASH_KEY_API_SECRET` | For images | Unsplash secret |
 | `VERIFY_EMAIL` | For email | SMTP sender address |
 | `VERIFY_PASSWORD` | For email | SMTP password or app password |
+| `GOOGLE_CLIENT_ID` | For login with google | https://console.cloud.google.com |
+| `CORS_ORIGINS` | For resolve cors |
 
 #### Frontend (`frontend/.env`)
 
@@ -134,12 +164,14 @@ cp frontend/.env.example frontend/.env
 |----------|----------|-------------|
 | `VITE_BASE_URL` | Yes | API base URL, e.g. `http://localhost:5000/api/v1` |
 | `VITE_SOCKET_URL` | No | Socket.IO URL for real-time notifications (optional) |
+| `VITE_GOOGLE_CLIENT_ID` | Yes | https://console.cloud.google.com |
 
 ### Contributing workflow
 
 1. Fork the repository and clone your fork.
 2. Create a branch: `git checkout -b your-feature-branch`
 3. Install with `npm install` at the repo root, configure `.env` files, then `git add`, `git commit`, `git push`, and open a pull request.
+
 
 
 <a id="contributing"></a>
@@ -199,6 +231,15 @@ Thanks to everyone who has helped build **Story Spark AI**. This section updates
     </td>
     <td align="center">
       <sub><b>P. Harshini Padmavathi</b></sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/charanbalaji2005">
+        <img src="https://github.com/charanbalaji2005.png" width="100" alt="charanbalaji2005" />
+        <br />
+        <sub><b>Charan Balaji</b></sub>
+      </a>
+      <br />
+      <sub>Contributor (ScrollFAB, Mobile Navigation, UI Components)</sub>
     </td>
   </tr>
 </table>
